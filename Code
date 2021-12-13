@@ -1,0 +1,118 @@
+---
+title: "Uber Data Analysis "
+author: Dhairya Patel
+date: December 11th, 2021
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(ggthemes)
+library(lubridate)
+library(dplyr)
+library(tidyr)
+library(DT)
+library(scales)
+
+Here, we introduce and install above mentioned R packagaes.
+Where ggplot2 is used for creating aesthetic visualization plot.
+ggthemes is addon to ggplot.
+lubridate - is used to understand data in seprate time category. 
+various others like dplyr, tidyr , DT, scales are used too for this project. 
+
+
+Business Problem: 
+Here, we are analyzing Uber oickup in NewYork city dataset. It is data visulazation project with help of ggplot tools in R and dveleoping R intution. 
+
+Data Source: 
+There are 1 source of data in the form of csv :
+1. uber-raw-data-aug14.csv  - A list of uber pickups in August month in Newyork city dataset.
+
+```{r 1, echo=TRUE}
+  setwd("C:/Users/admin/Desktop/Personal Space/Data Analytics/ANA 515 - Data Storage/Week 8/IMDB-Dataset")  
+  movie_data <- read.csv("uber-raw-data-aug14.csv",stringsAsFactors=FALSE)
+  rating_data <- read.csv("uber-raw-data-aug14.csv")
+  
+  str(uber-rawdata)
+  str(uber-rawdata)
+  
+  
+  Data Exploration and Cleanup 
+  
+  
+aug_data <- read.csv("uber-raw-data-aug14.csv")
+
+data_2014 <- rbind(aug_data)
+
+data_2014$Date.Time <- as.POSIXct(data_2014$Date.Time, format = "%m/%d/%Y %H:%M:%S")
+
+data_2014$Time <- format(as.POSIXct(data_2014$Date.Time, format = "%m/%d/%Y %H:%M:%S"), format="%H:%M:%S")
+
+data_2014$Date.Time <- ymd_hms(data_2014$Date.Time)
+
+data_2014$day <- factor(day(data_2014$Date.Time))
+data_2014$month <- factor(month(data_2014$Date.Time, label = TRUE))
+data_2014$year <- factor(year(data_2014$Date.Time))
+data_2014$dayofweek <- factor(wday(data_2014$Date.Time, label = TRUE))
+
+Here, We arranged data for August 2014 for the uber pickups in accordance with  Date.Time column. Then, we will proceed to create factors of time objects like day, month, year etc
+
+
+Now, here we used ggplot function in R, number of passengers had made in day, used dplyr function to aggregate our data, this helped to understand the fares of the day.
+As a result we came across as a result as number of trips were higher on 5-6pm.
+
+
+ggplot(hour_data, aes(hour, Total)) + 
+        geom_bar( stat = "identity", fill = "steelblue", color = "red") +
+           ggtitle("Trips Every Hour") +
+            theme(legend.position = "none") +
+            scale_y_continuous(labels = comma)
+
+month_hour <- data_2014 %>%
+          group_by(month, hour) %>%
+             dplyr::summarize(Total = n())
+
+ggplot(month_hour, aes(hour, Total, fill = month)) + 
+       geom_bar( stat = "identity") +
+          ggtitle("Trips by Hour and Month") +
+           scale_y_continuous(labels = comma)
+datata
+ble(hour_data)
+
+
+Uber Trips by hour and month
+ggplot(hour_data, aes(hour, Total)) + 
+        geom_bar( stat = "identity", fill = "steelblue", color = "red") +
+           ggtitle("Trips Every Hour") +
+            theme(legend.position = "none") +
+            scale_y_continuous(labels = comma)
+
+month_hour <- data_2014 %>%
+          group_by(month, hour) %>%
+             dplyr::summarize(Total = n())
+
+ggplot(month_hour, aes(hour, Total, fill = month)) + 
+       geom_bar( stat = "identity") +
+          ggtitle("Trips by Hour and Month") +
+           scale_y_continuous(labels = comma)
+           
+           
+           
+           ggplot(hour_data, aes(hour, Total)) + 
+        geom_bar( stat = "identity", fill = "steelblue", color = "red") +
+           ggtitle("Trips Every Hour") +
+            theme(legend.position = "none") +
+            scale_y_continuous(labels = comma)
+
+month_hour <- data_2014 %>%
+          group_by(month, hour) %>%
+             dplyr::summarize(Total = n())
+
+
+
+Here, we are getting idea about the uber rides for the every hour pf that specific month in our case is April 2
+ggplot(month_hour, aes(hour, Total, fill = month)) + 
+       geom_bar( stat = "identity") +
+          ggtitle("Trips by Hour and Month") +
+           scale_y_continuous(labels = comma)
+
